@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.css">
+</head>
+<body>
+<div class="container mt-2">
+    <div class="card">
+        <div class="card-header">List des patients</div>
+        <div class="card-body">
+            <form method="get" th:action="@{index}">
+                <div class="form-control">
+                    <label>Key words</label>
+                    <input type="text" name="keyword" th:value="${keyword}"/>
+                    <button class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+            <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Date</th>
+                <th>Malade</th>
+                <th>Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p:${listPatients}">
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.nom}"></td>
+                <td th:text="${p.dateNaissance}"></td>
+                <td th:text="${p.malade}"></td>
+                <td th:text="${p.score}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+            <ul>
+
+            </ul>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item" th:each="page,status:${pages}">
+                        <a th:class="${(status.index)==currentPage?'page-link active':'page-link'}" class="page-link" th:text="${(status.index+1)}" th:href="@{index(page=${status.index},keyword=${keyword})}"></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>
