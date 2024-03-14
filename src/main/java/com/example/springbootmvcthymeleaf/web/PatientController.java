@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -30,5 +32,18 @@ public class PatientController {
         model.addAttribute("keyword",keyword);
 
         return  "patients"; //return the patients template
+    }
+
+    @PostMapping("/index")
+    public String delete(
+            @RequestParam(name="page",defaultValue = "0")int page,
+            @RequestParam(name="size",defaultValue = "5") int size,
+            @RequestParam(name="keyword",defaultValue = "") String keyword,
+            @RequestBody Long id
+    ){
+
+        patientRepository.deleteById(id);
+        return  "redirect:/index";
+
     }
 }
