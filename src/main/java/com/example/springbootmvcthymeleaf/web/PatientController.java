@@ -2,6 +2,8 @@ package com.example.springbootmvcthymeleaf.web;
 
 import com.example.springbootmvcthymeleaf.entities.Patient;
 import com.example.springbootmvcthymeleaf.repositories.PatientRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,13 +33,41 @@ public class PatientController {
 
         return  "patients"; //return the patients template
     }
-
+    @GetMapping(path="/")
+    public String  home(){
+        return  "redirect:/index"; //return the patients template
+    }
+    @GetMapping(path="/formPatient")
+    public String  formPatients(Model model){
+        model.addAttribute("patient",new Patient());
+        return  "formPatients"; //return the patients template
+    }
+    @GetMapping(path="/edit")
+    public String  editPatients(
+            @RequestParam(name="page",defaultValue = "0")int page,
+            @RequestParam(name="keyword",defaultValue = "") String keyword,
+            @RequestParam Long id,
+            Model model){
+        Patient patient=patientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("not found"));
+        model.addAttribute("patient",patient);
+        model.addAttribute("page",page);
+        model.addAttribute("keyword",keyword);
+        return  "editPatients"; //return the patients template
+    }
+    @PostMapping(path = "/save")
+    public String save(Model model,@Valid Patient patient,
+                       @RequestParam(name="page",defaultValue = "0")int page,
+                       @RequestParam(name="keyword",defaultValue = "") String keyword
+                       ){
+        patientRepository.save(patient);
+        return "redirect:/index?page="+page+"&keyword="+keyword;//better to change to a redirect
+    }
     @PostMapping("/index")
     public String delete(
             @RequestParam(name="page",defaultValue = "0")int page,
             @RequestParam(name="size",defaultValue = "5") int size,
             @RequestParam(name="keyword",defaultValue = "") String keyword,
-            @RequestBody Long id
+            Long id
     ){
 
         patientRepository.deleteById(id);

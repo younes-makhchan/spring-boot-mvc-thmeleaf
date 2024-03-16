@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Form Patient</title>
+
+</head>
+<body>
+<section layout:fragment="content1">
+<form  class="offset-3 d-flex gap-3 flex-column" method="post" th:action="@{save}">
+    <div class="col-6">
+            <label for="nom">Nom</label>
+            <input id="nom" class="form-control" type="text" name="nom" th:value="${patient.nom}" >
+            <span th:errors="${patient.nom}"></span>
+    </div>
+    <div class="col-6">
+        <label for="date">Date Naissance</label>
+        <input id="date" class="form-control" type="date" name="dateNaissance" th:value="${patient.dateNaissance}" >
+        <span th:errors="${patient.dateNaissance}"></span>
+    </div>
+    <div class="col-6">
+        <label for="malade">Malade</label>
+        <input id="malade" class="" type="checkbox" name="malade" th:checked="${patient.malade}" >
+        <span th:errors="${patient.dateNaissance}"></span>
+    </div>
+    <div class="col-6">
+        <label for="score">Score</label>
+        <input id="score" class="form-control" type="number" name="score" th:value="${patient.score}" >
+        <span th:errors="${patient.score}"></span>
+    </div>
+    <div class="col-12">
+    <button type="submit" class="btn btn-primary ">Submit </button>
+
+    </div>
+</form>
+</section>
+
+</body>
+</html>
