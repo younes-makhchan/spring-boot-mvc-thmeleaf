@@ -9,17 +9,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
 public class PatientController {
     private final PatientRepository patientRepository;
 
-    @GetMapping(path="/index")
+    @GetMapping(path="/user/index")
     public String  patients(Model model,
                             @RequestParam(name="page",defaultValue = "0")int page,
                             @RequestParam(name="size",defaultValue = "5") int size,
@@ -35,14 +32,14 @@ public class PatientController {
     }
     @GetMapping(path="/")
     public String  home(){
-        return  "redirect:/index"; //return the patients template
+        return  "home"; //return the patients template
     }
-    @GetMapping(path="/formPatient")
+    @GetMapping(path="/admin/formPatient")
     public String  formPatients(Model model){
         model.addAttribute("patient",new Patient());
         return  "formPatients"; //return the patients template
     }
-    @GetMapping(path="/edit")
+    @GetMapping(path="/admin/edit")
     public String  editPatients(
             @RequestParam(name="page",defaultValue = "0")int page,
             @RequestParam(name="keyword",defaultValue = "") String keyword,
@@ -54,7 +51,7 @@ public class PatientController {
         model.addAttribute("keyword",keyword);
         return  "editPatients"; //return the patients template
     }
-    @PostMapping(path = "/save")
+    @PostMapping(path = "/admin/save")
     public String save(Model model,@Valid Patient patient,
                        @RequestParam(name="page",defaultValue = "0")int page,
                        @RequestParam(name="keyword",defaultValue = "") String keyword
@@ -62,7 +59,7 @@ public class PatientController {
         patientRepository.save(patient);
         return "redirect:/index?page="+page+"&keyword="+keyword;//better to change to a redirect
     }
-    @PostMapping("/index")
+    @PostMapping("/admin/index")
     public String delete(
             @RequestParam(name="page",defaultValue = "0")int page,
             @RequestParam(name="size",defaultValue = "5") int size,

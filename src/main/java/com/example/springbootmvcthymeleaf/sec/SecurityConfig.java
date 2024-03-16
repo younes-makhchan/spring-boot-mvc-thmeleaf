@@ -40,12 +40,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws  Exception{
         httpSecurity.formLogin(AbstractAuthenticationFilterConfigurer::permitAll)//should be here if authorizeHttpRequests exists
                 .authorizeHttpRequests(requestMatcherRegistry -> {
-                    requestMatcherRegistry.requestMatchers("/delete/**", "/edit/**", "/save/**")//alow this for admin
+                    requestMatcherRegistry.requestMatchers("/","/webjars/**").permitAll();
+
+                    requestMatcherRegistry.requestMatchers("/admin/**")//alow this for admin
                             .hasRole( "ADMIN" );
-                    requestMatcherRegistry.requestMatchers(  "/","/index/**" ).hasRole("USER");//allow this for user
+                    requestMatcherRegistry.requestMatchers(  "/user/**" ).hasRole("USER");//allow this for user
                     requestMatcherRegistry.anyRequest().authenticated();//any request should be auth
                  }
-                );
+                ).exceptionHandling(exception->{
+                    exception.accessDeniedHandler((request, response, accessDeniedException) -> {
+                        response.sendRedirect("/403");
+                    });
+                });
 
 
         return  httpSecurity.build();

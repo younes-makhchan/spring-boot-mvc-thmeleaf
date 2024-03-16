@@ -10,7 +10,7 @@
 </head>
 <body>
 <section layout:fragment="content1">
-<form  class="offset-3 d-flex gap-3 flex-column" method="post" th:action="@{save}">
+<form  class="offset-3 d-flex gap-3 flex-column" method="post" th:action="@{/admin/save}">
     <div class="col-6">
             <label for="nom">Nom</label>
             <input id="nom" class="form-control" type="text" name="nom" th:value="${patient.nom}" >

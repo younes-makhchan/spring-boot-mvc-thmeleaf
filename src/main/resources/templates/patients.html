@@ -41,13 +41,13 @@
                         <td th:text="${p.malade}"></td>
                         <td th:text="${p.score}"></td>
                         <td sec:authorize="hasRole('ADMIN')">
-                            <form method="post" th:action="@{index(page=${currentPage},keyword=${keyword})}">
+                            <form method="post" th:action="@{/admin/index(page=${currentPage},keyword=${keyword})}">
                                 <input type="hidden"  name="id" th:value="${p.id}"/>
                                 <button class="btn btn-danger">Delete</button>
                             </form>
                         </td>
                         <td sec:authorize="hasRole('ADMIN')">
-                            <a  class="btn btn-secondary" th:href="@{edit(id=${p.id},page=${currentPage},keyword=${keyword})}">
+                            <a  class="btn btn-secondary" th:href="@{/admin/edit(id=${p.id},page=${currentPage},keyword=${keyword})}">
                                Edit
                             </a>
                         </td>
