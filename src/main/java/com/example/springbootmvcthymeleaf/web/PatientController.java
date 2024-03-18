@@ -57,7 +57,7 @@ public class PatientController {
                        @RequestParam(name="keyword",defaultValue = "") String keyword
                        ){
         patientRepository.save(patient);
-        return "redirect:/index?page="+page+"&keyword="+keyword;//better to change to a redirect
+        return "redirect:/user/index?page="+page+"&keyword="+keyword;//better to change to a redirect
     }
     @PostMapping("/admin/index")
     public String delete(
@@ -68,7 +68,7 @@ public class PatientController {
     ){
 
         patientRepository.deleteById(id);
-        return  "redirect:/index";
+        return  "redirect:/user/index";
 
     }
 }
